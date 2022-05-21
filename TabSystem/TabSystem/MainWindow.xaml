@@ -1,0 +1,52 @@
+﻿<Window x:Class="TabSystem.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:bh="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TabSystem"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="Auto" Width="Auto" SnapsToDevicePixels="True" Background="DarkGray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+    <Window.DataContext>
+        <local:MainWindowViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="LeftTabDesign/LeftTabDesign.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="161"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Border Background="#333" BorderThickness="0,0,1,0" BorderBrush="#e8e8e8"/>
+        <TabControl TabStripPlacement="Left" BorderThickness="0" Grid.ColumnSpan="2">
+            <TabItem Style="{StaticResource Menu}" IsEnabled="False" Height="5">
+            </TabItem>
+            <TabItem  Style="{StaticResource Menu}" IsSelected="True" Header="TEST">
+                <bh:Interaction.Triggers>
+                    <bh:EventTrigger EventName="MouseRightButtonDown">
+                        <bh:InvokeCommandAction Command="{Binding closeTabItemCommand}" CommandParameter="{Binding RelativeSource = {RelativeSource Mode=FindAncestor, AncestorType = Control}}"/>
+                    </bh:EventTrigger>
+                </bh:Interaction.Triggers>
+            </TabItem>
+            <TabItem Name="LogWindow" Style="{StaticResource Menu}">
+                <TabItem.Header>
+                    <TextBlock Text="+" FontSize="18" FontFamily="Yu Gothic" Foreground="white" Grid.Column="1" FontWeight="Bold">
+                            <bh:Interaction.Triggers>
+                                <bh:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                    <bh:InvokeCommandAction Command="{Binding addTabItemCommand}" CommandParameter="{Binding ElementName=LogWindow}"/>
+                                </bh:EventTrigger>
+                            </bh:Interaction.Triggers>
+                    </TextBlock>
+                </TabItem.Header>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
